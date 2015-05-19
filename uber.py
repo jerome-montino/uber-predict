@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime
 import statsmodels.formula.api as sm
 import dateutil.parser
+from pytz import timezone, utc
  
 _get_day_of_wk = lambda x:x.weekday() + 1
 _get_hour = lambda x:x.hour + 1
@@ -81,4 +82,5 @@ if __name__ == '__main__':
   df['Date&Time'] = dr
   predict = lambda x:up.predict_on_date(str(x))
   df['Predicted Demand'] = df['Date&Time'].apply(predict)
+  df['Date&Time'] = dr.tz_localize(tz='UTC')
   df.to_csv('predictions.csv')
